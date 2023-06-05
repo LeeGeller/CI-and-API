@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 class MobileBankApiTestV2 {
     @Test
@@ -16,11 +17,8 @@ class MobileBankApiTestV2 {
       .when()
           .get("/demo/accounts")
       // Проверки
-      .then()
-          .statusCode(200)
-          // .header("Content-Type", "application/json; charset=UTF-8")
-          // специализированные проверки - лучше
-          .contentType(ContentType.JSON)
-      ;
+              .then()
+              .statusCode(200)
+              .body(matchesJsonSchemaInClasspath("accounts.schema.json"));;
     }
 }
